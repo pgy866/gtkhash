@@ -1,0 +1,15 @@
+# Meson / ninja build directories
+build/
+obj-*/
+
+# Generated files
+data/gschemas.compiled
+
+# Debian packaging byproducts
+debian/.debhelper/
+debian/gtkhash/
+debian/gtkhash-dbgsym/
+debian/files
+debian/debhelper-build-stamp
+debian/*.substvars
+debian/*.buildinfo

@@ -1,0 +1,7 @@
+gtkhash (1.5-1) unstable; urgency=medium
+
+  * Initial Deepin (crimson) packaging of GtkHash 1.5.
+  * Built from upstream source with meson; blake3 disabled (libblake3
+    not available in Deepin repositories).
+
+ -- Deepin Builder <builder@localhost>  Fri, 02 Oct 2026 20:51:00 +0800

@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --buildsystem=meson
+
+override_dh_auto_configure:
+	dh_auto_configure -- -Dblake3=false
+
+override_dh_auto_test:
+	# Unit tests crash under Deepin's glib 2.84 (system-wide GTK3
+	# g_value_set_boxed assertion, also affects gcr-viewer/simple-scan).
+	@echo "Skipping tests (glib 2.84 compatibility, see changelog)"
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf build
