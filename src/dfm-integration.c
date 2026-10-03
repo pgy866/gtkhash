@@ -39,23 +39,25 @@
 #define DFM_MENU_NAME "gtkhash.conf"
 
 // launcher script executed by the context menu entry; falls back to a
-// portable AppImage placed next to the script if gtkhash is not installed
+// portable AppImage in common locations if gtkhash is not installed
 static const char dfm_script_contents[] =
 	"#!/bin/bash\n"
 	"# GtkHash file-manager launcher (handles paths with spaces correctly)\n"
 	"# Used by the dde-file-manager custom context menu.\n"
 	"\n"
-	"if ! command -v gtkhash >/dev/null 2>&1; then\n"
-	"    # Fallback: portable AppImage next to the script\n"
-	"    APPIMAGE=\"$(dirname \"$0\")/GtkHash-x86_64.AppImage\"\n"
-	"    if [ -x \"$APPIMAGE\" ]; then\n"
-	"        exec \"$APPIMAGE\" \"$@\"\n"
-	"    fi\n"
-	"    notify-send \"GtkHash\" \"gtkhash 未安装，请先安装 GtkHash 或 AppImage\" 2>/dev/null\n"
-	"    exit 1\n"
+	"if command -v gtkhash >/dev/null 2>&1; then\n"
+	"    exec /usr/bin/gtkhash \"$@\"\n"
 	"fi\n"
 	"\n"
-	"exec /usr/bin/gtkhash \"$@\"\n";
+	"# Fallback: look for the portable AppImage in common locations\n"
+	"for d in \"$(dirname \"$0\")\" \"$HOME/Downloads\" \"$HOME/下载\" \"$HOME/Desktop\" \"$HOME/桌面\"; do\n"
+	"    if [ -x \"$d/GtkHash-x86_64.AppImage\" ]; then\n"
+	"        exec \"$d/GtkHash-x86_64.AppImage\" \"$@\"\n"
+	"    fi\n"
+	"done\n"
+	"\n"
+	"notify-send \"GtkHash\" \"未找到 GtkHash 或 GtkHash-x86_64.AppImage，请先安装。\" 2>/dev/null\n"
+	"exit 1\n";
 
 static char *get_script_path(void)
 {

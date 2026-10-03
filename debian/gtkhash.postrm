@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+# GtkHash postrm: clean up Deepin File Manager integration files that the
+# application installs into user home directories at runtime (the package
+# itself does not own these files, so dpkg removal would otherwise leave
+# stale context-menu entries behind).
+
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+    for home in /home/*; do
+        [ -d "$home" ] || continue
+        rm -f "$home/.local/share/deepin/dde-file-manager/context-menus/gtkhash.conf"
+        rm -f "$home/.local/share/gtkhash-filemanager/hash-files.sh"
+        rmdir "$home/.local/share/gtkhash-filemanager" 2>/dev/null || true
+        rmdir "$home/.local/share/deepin/dde-file-manager/context-menus" 2>/dev/null || true
+    done
+fi
+
+exit 0
