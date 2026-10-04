@@ -1,3 +1,20 @@
+gtkhash (1.5-2) unstable; urgency=medium
+
+  * Fix Deepin File Manager integration for portable AppImage builds:
+    - When the integration is enabled while GtkHash runs from an AppImage
+      (APPIMAGE environment variable set), the AppImage is copied next to
+      the launcher script as "GtkHash-x86_64.AppImage", so the context-menu
+      keeps working even if the user later moves or renames the original
+      AppImage file.
+    - Disabling the integration now also removes that copied AppImage.
+    - The launcher script template is now robust: it supports a manually
+      configured path, a recorded "appimage-path" file, any file matching
+      GtkHash*.AppImage in common locations, and a bounded $HOME search,
+      so moving/renaming the AppImage no longer breaks the menu entry.
+  * Add missing <gio/gio.h> include used by the new file-copy code.
+
+ -- Deepin Builder <builder@localhost>  Sun, 04 Oct 2026 00:40:29 +0800
+
 gtkhash (1.5-1) unstable; urgency=medium
 
   * Initial Deepin (crimson) packaging of GtkHash 1.5.
